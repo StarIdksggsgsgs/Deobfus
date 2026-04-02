@@ -53,3 +53,25 @@ app.post("/deobf", async (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// =====================
+// Auto ping renamer API
+// =====================
+async function pingRenamer() {
+  try {
+    await fetch("https://renamer-rd14.onrender.com/api", {
+      method: "POST",
+      headers: { "Content-Type": "text/plain" },
+      body: "keep-alive ping"
+    });
+    console.log("Renamer API pinged successfully");
+  } catch (err) {
+    console.log("Renamer API ping failed:", err.message);
+  }
+}
+
+// Ping every 60 seconds
+setInterval(pingRenamer, 60 * 1000);
+
+// Optional: ping immediately on startup
+pingRenamer();
